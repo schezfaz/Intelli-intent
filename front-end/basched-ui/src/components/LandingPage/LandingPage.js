@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
@@ -16,16 +16,22 @@ const eyTheme = createMuiTheme({
 
 
 export default function LandingPage(){
+    const [pathValue, setValue] = useState('');
+
     const getURL = (e) => {
+        fetch('/time').then(res => res.json()).then(data => {
+            console.log(data.time);
+        });
+        setValue(e.target.value);
         console.log(e.target.value);
     } 
+
     return(
     <MuiThemeProvider theme={eyTheme}>
       <CssBaseline />
       <TextField 
             id="standard-basic"
             style={{ margin: 40, width: 500}}
-            color="#ffe600"
             placeholder="Enter URL"
             onChange = {getURL}
             InputProps={{
