@@ -42,7 +42,8 @@ export default function LandingPage(){
             },
             body:JSON.stringify(pathValue)
             }
-        ).then(res => console.log(res));
+        ).then(response => response.json())
+        .then(data => console.log(data));
     }
 
 
@@ -50,23 +51,21 @@ export default function LandingPage(){
     return(
     <MuiThemeProvider theme={eyTheme}>
       <CssBaseline />
-        <form onSubmit={handleSubmit}>
-            <TextField 
-                id="standard-basic"
-                style={{ margin: 40, width: 500}}
-                placeholder="Enter URL"
-                onChange = {(e) => setValue(e.target.value)} 
-                InputProps={{
-                    endAdornment: (
-                    <InputAdornment>
-                        <IconButton>
-                        <SearchIcon />
-                        </IconButton>
-                    </InputAdornment>
-                    )
-                }}
-            />
-        </form>
+        <TextField 
+            id="standard-basic"
+            style={{ margin: 40, width: 500}}
+            placeholder="Enter URL"
+            onChange = {(e) => setValue(e.target.value)} 
+            InputProps={{
+                endAdornment: (
+                <InputAdornment>
+                    <IconButton>
+                    <SearchIcon onClick={handleSubmit}/>
+                    </IconButton>
+                </InputAdornment>
+                )
+            }}
+        />
     </MuiThemeProvider>
     );
 
