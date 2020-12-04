@@ -26,7 +26,7 @@ export default function LandingPage(){
     //     console.log(e.target.value);
     // } 
 
-    console.log("path: " + pathValue);
+    // console.log("path: " + pathValue);
     function handleSubmit(event) {
         event.preventDefault();
         console.log("submitted:" +pathValue); 
