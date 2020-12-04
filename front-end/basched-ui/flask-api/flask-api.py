@@ -74,5 +74,22 @@ def crawlDir():
 
     return {'Winner': labels[np.argmax(pred)]}
 
+@app.route('/bertExtSum', methods=['GET','POST'])
+def bertExtSum():
+
+    from summarizer import Summarizer
+    model = Summarizer()
+
+    get_para_summary=open('sports_test.txt', encoding="utf8", errors='ignore').read()
+
+    from gensim.parsing.preprocessing import remove_stopwords
+    filtered_sentence = remove_stopwords(get_para_summary)
+    # print(filtered_sentence)
+    
+    result = model(filtered_sentence, min_length=20)
+    summary = "".join(result)
+      
+    return(summary)
+
 
 app.run(port=5000, debug=True)
