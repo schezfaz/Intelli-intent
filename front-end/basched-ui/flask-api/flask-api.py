@@ -74,7 +74,7 @@ def crawlDir():
     labels = ['Business','Entertainment','Politics','Sports','Tech']
     print(pred, labels[np.argmax(pred)])
 
-
+    getFilesFromElasticsearch(labels[np.argmax(pred)])
     return {'Winner': labels[np.argmax(pred)]}
 
 @app.route('/bertExtSum', methods=['GET','POST'])
@@ -134,6 +134,20 @@ def saveFilesToElasticSearch(ctx, server_url):
                 download_file_name = file.properties["Name"]
                 es.index(index=myfolder.properties["Name"].lower(), doc_type="test-type", id=index, body={"name": download_file_name, "location" : server_url+file.properties["ServerRelativeUrl"]})
                 index+= 1
+
+def getFilesFromElasticsearch(intent_predicted):
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    doc = {
+        'size' : 10000,
+        'query': {
+            'match_all' : {}
+       }
+    }
+    res = es.search(index=intent_predicted.lower(), doc_type='test-type', body=doc)
+    for doc in res['hits']['hits']:
+        print(doc['_id'], doc['_source'])
+    
+    return res
 
 
 app.run(port=5000, debug=True)
