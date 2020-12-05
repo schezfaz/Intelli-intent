@@ -1,2 +1,2 @@
-FLASK_APP=flask-api-backend.py
+FLASK_APP=flask-api.py
 FLASK_ENV=development
