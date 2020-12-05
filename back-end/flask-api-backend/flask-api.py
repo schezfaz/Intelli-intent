@@ -66,16 +66,16 @@ def crawlDir():
     dirPath = request.json
     print(dirPath)
 
-
     new_complaint = [dirPath] #['Also known as the Growth/Share Matrix, this marketing model was conceptualized to help marketers with long-term strategic planning and business growth opportunities by reviewing the portfolio of their products.']
     seq = tokenizer.texts_to_sequences(new_complaint)
     padded = pad_sequences(seq, maxlen=3000)
     pred = model1.predict(padded)
-    labels = ['Business','Entertainment','Politics','Sports','Tech']
+    labels = ['business','entertainment','politics','sport','tech']
     print(pred, labels[np.argmax(pred)])
 
-    getFilesFromElasticsearch(labels[np.argmax(pred)])
-    return {'Winner': labels[np.argmax(pred)]}
+    res = getFilesFromElasticsearch(labels[np.argmax(pred)])
+    return jsonify(res['hits']['hits'])
+    # return {'Winner': labels[np.argmax(pred)]}
 
 @app.route('/bertExtSum', methods=['GET','POST'])
 def bertExtSum():
@@ -94,7 +94,7 @@ def bertExtSum():
       
     return(summary)
 
-@app.route('/sharepoint-connect', methods=['POST'])
+@app.route('/sharepoint-connect', methods=['GET','POST'])
 def connectToSharepoint():
 
     server_url = "https://spitindia.sharepoint.com"
@@ -117,7 +117,10 @@ def saveFilesToElasticSearch(ctx, server_url):
     ctx.load(folders)
     ctx.execute_query()
 
-    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    # es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    es = Elasticsearch(
+    ["https://elastic:pVtn4OLSorIsWFjY79TIAVYp@6417f52e634543d5b0bef8fb023b0aeb.ap-south-1.aws.elastic-cloud.com:9243"])
+
 
     for myfolder in folders:
         if(myfolder.properties["Name"] != 'Forms'):
@@ -136,9 +139,12 @@ def saveFilesToElasticSearch(ctx, server_url):
                 index+= 1
 
 def getFilesFromElasticsearch(intent_predicted):
-    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    #es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    es = Elasticsearch(
+    ["https://elastic:pVtn4OLSorIsWFjY79TIAVYp@6417f52e634543d5b0bef8fb023b0aeb.ap-south-1.aws.elastic-cloud.com:9243"])
+
     doc = {
-        'size' : 10000,
+        'size' : 20,
         'query': {
             'match_all' : {}
        }
@@ -150,3 +156,4 @@ def getFilesFromElasticsearch(intent_predicted):
     return res
 
 
+app.run(port=5000, debug=True)

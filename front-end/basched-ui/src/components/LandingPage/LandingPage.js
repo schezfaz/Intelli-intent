@@ -5,28 +5,23 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const eyTheme = createMuiTheme({
     palette: {
       background: {
-        default: "#999999"
+        default: "#c6fced"
       }
     }
 });
 
 
-export default function LandingPage(){
+export default function Home(){
+    const classes = useStyles();
+
     const [pathValue, setValue] = useState('');
 
-    // const getURL = (e) => {
-    //     fetch('/time').then(res => res.json()).then(data => {
-    //         console.log(data.time);
-    //     });
-    //     setValue(e.target.value);
-    //     console.log(e.target.value);
-    // } 
-
-    // console.log("path: " + pathValue);
     function handleSubmit(event) {
         event.preventDefault();
         console.log("submitted:" +pathValue); 
@@ -51,6 +46,7 @@ export default function LandingPage(){
     return(
     <MuiThemeProvider theme={eyTheme}>
       <CssBaseline />
+      
         <TextField 
             id="standard-basic"
             style={{ margin: 40, width: 500}}
