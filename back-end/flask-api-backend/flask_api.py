@@ -1,4 +1,5 @@
 import time
+import json
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from office365.runtime.auth.authentication_context import AuthenticationContext
@@ -12,12 +13,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
-from keras.models import Sequential
-from keras.layers import Dense, Embedding, LSTM, SpatialDropout1D
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical
-from keras.callbacks import EarlyStopping
-from keras.layers import Dropout
 import re
 import nltk
 nltk.download('stopwords')
@@ -50,7 +45,7 @@ tokenizer = Tokenizer(num_words=50000, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'
 tokenizer.fit_on_texts(df['text'].values)
 
 
-model1 = tf.keras.models.load_model("bbcLSTM.model")
+model1 = tf.keras.models.load_model("bbcLSTMNew.model")
 
 
 @app.route('/', methods=['GET'])
@@ -61,8 +56,8 @@ def index():
 def get_current_time():
     return {'time': time.time()}
 
-@app.route('/crawlDir', methods = ['GET','POST'])
-def crawlDir():
+@app.route('/userQuery', methods = ['GET','POST'])
+def userQuery():
     dirPath = request.json
     print(dirPath)
 
@@ -70,12 +65,34 @@ def crawlDir():
     seq = tokenizer.texts_to_sequences(new_complaint)
     padded = pad_sequences(seq, maxlen=3000)
     pred = model1.predict(padded)
+    # arrProbVal = str(pred[0][0])
     labels = ['business','entertainment','politics','sport','tech']
     print(pred, labels[np.argmax(pred)])
 
-    res = getFilesFromElasticsearch(labels[np.argmax(pred)])
-    return jsonify(res['hits']['hits'])
+    arrProbVal = {
+        'business':str(pred[0][0]),
+        'entertainment': str(pred[0][1]),
+        'politics':str(pred[0][2]),
+        'sport': str(pred[0][3]),
+        'tech':str(pred[0][4]),
+    }
+
+    json_object = json.dumps(arrProbVal) 
+
+    return (json_object)
+
+    # res = getFilesFromElasticsearch(labels[np.argmax(pred)])
+    # return jsonify(res['hits']['hits'])
     # return {'Winner': labels[np.argmax(pred)]}
+
+
+@app.route('/crawlDir', methods = ['GET','POST'])
+def crawlDir():
+    dirPath = request.json
+    print(dirPath)
+
+    res = getFilesFromElasticsearch(dirPath)
+    return jsonify(res['hits']['hits'])
 
 @app.route('/bertExtSum', methods=['GET','POST'])
 def bertExtSum():
@@ -149,13 +166,13 @@ def getFilesFromElasticsearch(intent_predicted):
             'match_all' : {}
        }
     }
-    res = es.search(index=intent_predicted.lower(), doc_type='test-type', body=doc)
-    for doc in res['hits']['hits']:
-        print(doc['_id'], doc['_source'])
+    res = es.search(index=intent_predicted, doc_type='test-type', body=doc)
+    # for doc in res['hits']['hits']:
+    #     print(doc['_id'], doc['_source'])
     
     return res
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
 
-#app.run(port=5000, debug=True)
+app.run(port=5000, debug=True)

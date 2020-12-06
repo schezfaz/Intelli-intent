@@ -85,10 +85,46 @@ export default function Album() {
 
   const [pathValue, setValue] = useState('');
   const [resEs, setResEs] = useState([]);
+  const [business, setBusiness] = useState();
+  const [tech, setTech] = useState();
+  const [entertainment, setEntertainment] = useState();
+  const [sport, setSport] = useState();
+  const [politics, setPolitics] = useState();
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        console.log("submitted:" +pathValue); 
+
+    function handleCategory (event){
+      event.preventDefault();
+      console.log("User Query submitted:" +pathValue); 
+      fetch("/userQuery", {
+          method:"POST",
+          cache: "no-cache",
+          headers:{
+              "Content-type":"application/json",
+              'Accept': 'application/json',
+              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+              'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+              'Access-Control-Allow-Origin': "['*']"
+          },
+          body:JSON.stringify(pathValue)
+          }
+      ).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setBusiness(data.business)
+        setTech(data.tech)
+        setSport(data.sport)
+        setEntertainment(data.entertainment)
+        setPolitics(data.politics)
+        // console.log(data)
+      })   
+  }
+
+    function handleSubmit(val) {
+        //event.preventDefault();
+        console.log("submitted:" +val); 
+        if(!business)
+          alert("Note: You haven't searched for intent query hence all data will be fetchted for this intent")
+
         fetch("/crawlDir", {
             method:"POST",
             cache: "no-cache",
@@ -99,11 +135,12 @@ export default function Album() {
                 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
                 'Access-Control-Allow-Origin': "['*']"
             },
-            body:JSON.stringify(pathValue)
+            body:JSON.stringify(val)
             }
         ).then(response => response.json())
         .then(data => {
           setResEs(data)
+          console.log(data)
         })   
     }
 
@@ -149,13 +186,46 @@ export default function Album() {
                     endAdornment: (
                     <InputAdornment>
                         <IconButton>
-                        <SearchIcon onClick={handleSubmit}/>
+                        <SearchIcon onClick={handleCategory}/>
                         </IconButton>
                     </InputAdornment>
                     )
                 }}
             />
           </MuiThemeProvider>
+          <br/>
+        
+          <Grid item >
+          
+                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("business")}>
+                  : business : {business}
+                </Button>&nbsp;&nbsp;
+
+                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("tech")}>
+                  : tech : {tech}
+                </Button>&nbsp;&nbsp;
+
+                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("sport")}>
+                  : sport : {sport}
+                </Button>&nbsp;&nbsp;
+
+                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("entertainment")}>
+                  : entertainment : {entertainment}
+                </Button>&nbsp;&nbsp;
+
+                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("politics")}>
+                  : politics : {politics}
+                </Button>&nbsp;&nbsp;
+                
+
+                <Typography variant="h7" align="center" color="textSecondary" paragraph>
+                <br/>
+              <b><i>*Category with Intent Score will be displayed post search query</i></b>
+            </Typography>
+                </Grid>
+
+             
+
         </Grid>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
