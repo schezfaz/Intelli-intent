@@ -24,7 +24,7 @@ app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 
-df=pd.read_csv("bbc-text.csv")
+df=pd.read_csv("new-bbc-text.csv")
 
 
 space = re.compile('[/(){}\[\]\|@,;]')

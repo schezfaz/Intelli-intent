@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import banner from '../BaschedBotBanner.jpg';
+import banner from '../ey.png';
 import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -146,10 +146,11 @@ export default function Album() {
 
   return (
     <React.Fragment>
+      {/* <MuiThemeProvider theme={eyTheme}> */}
       <CssBaseline />
       <AppBar color="default" position="relative">
         <Toolbar>
-          <CameraIcon className={classes.icon} />
+          <img src={banner} alt="Banner" width="40" height="50" />
           <Typography variant="h6" color="inherit" noWrap>
             Intelli-intent - EY Repository Search
           </Typography>
@@ -166,15 +167,15 @@ export default function Album() {
               <i>One Place for all EY Documents</i>
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
+              {/* <Grid container spacing={2} justify="center">
                 <img src={banner} alt="Banner" width="400" height="200" />
-              </Grid>
+              </Grid> */}
             </div>
           </Container>
         </div>
         
         <Grid item>
-          <MuiThemeProvider theme={eyTheme}>
+          {/* <MuiThemeProvider theme={eyTheme}> */}
             <TextField 
                 id="standard-basic"
                 variant="outlined"
@@ -192,29 +193,29 @@ export default function Album() {
                     )
                 }}
             />
-          </MuiThemeProvider>
+          {/* </MuiThemeProvider> */}
           <br/>
         
           <Grid item >
           
-                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("business")}>
-                  : business : {business}
+                <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleSubmit("business")}>
+                  business : {business}
                 </Button>&nbsp;&nbsp;
 
-                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("tech")}>
-                  : tech : {tech}
+                <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleSubmit("tech")}>
+                  tech : {tech}
                 </Button>&nbsp;&nbsp;
 
-                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("sport")}>
-                  : sport : {sport}
+                <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleSubmit("sport")}>
+                  sport : {sport}
                 </Button>&nbsp;&nbsp;
 
-                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("entertainment")}>
-                  : entertainment : {entertainment}
+                <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleSubmit("entertainment")}>
+                  entertainment : {entertainment}
                 </Button>&nbsp;&nbsp;
 
-                <Button variant="contained" color="secondary" onClick={()=> handleSubmit("politics")}>
-                  : politics : {politics}
+                <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleSubmit("politics")}>
+                  politics : {politics}
                 </Button>&nbsp;&nbsp;
                 
 
@@ -240,10 +241,10 @@ export default function Album() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {card['_index']}
+                     {card['_source']['name']}
                     </Typography>
                     <Typography align="center">
-                      {card['_source']['name']}
+                    {card['_index']}
                     </Typography>
                   </CardContent>
                   <center>
@@ -253,7 +254,7 @@ export default function Album() {
                         variant="contained"  
                         size="small" 
                         color="primary"
-                        onClick={() => {alert(card['_source']['location'])}}
+                        onClick={() => {window.open(card['_source']['location'])}}
                       >
                           Show File Share-Point Location
                       </Button>
@@ -277,6 +278,7 @@ export default function Album() {
         <Copyright />
       </footer>
       {/* End footer */}
+      {/* </MuiThemeProvider> */}
     </React.Fragment>
   );
 }
