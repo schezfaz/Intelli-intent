@@ -124,7 +124,9 @@ export default function Album() {
         console.log("submitted:" +val); 
         if(!business)
           alert("Note: You haven't searched for intent query hence all data will be fetchted for this intent")
-
+          var obj = {};
+          obj.val = val;
+          obj.query = pathValue;
         fetch("/crawlDir", {
             method:"POST",
             cache: "no-cache",
@@ -135,7 +137,7 @@ export default function Album() {
                 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
                 'Access-Control-Allow-Origin': "['*']"
             },
-            body:JSON.stringify(val)
+            body:JSON.stringify(obj)
             }
         ).then(response => response.json())
         .then(data => {
@@ -241,7 +243,8 @@ export default function Album() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                     {card['_source']['name']}
+                     {card['_source']['name']}{"\n"}
+                     Similarity: {(Math.round(card['_score'] * 100) / 100).toFixed(2)}
                     </Typography>
                     <Typography align="center">
                     {card['_index']}

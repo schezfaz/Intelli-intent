@@ -89,9 +89,10 @@ def userQuery():
 @app.route('/crawlDir', methods = ['GET','POST'])
 def crawlDir():
     dirPath = request.json
-    print(dirPath)
+    print(dirPath['val'])
+    print(dirPath['query'])
 
-    res = getFilesFromElasticsearch(dirPath)
+    res = getFilesFromElasticsearch(dirPath['val'], dirPath['query'])
     return jsonify(res['hits']['hits'])
 
 @app.route('/bertExtSum', methods=['GET','POST'])
@@ -117,7 +118,7 @@ def connectToSharepoint():
     server_url = "https://spitindia.sharepoint.com"
     site_url = server_url + "/sites/Darshan"
     username = "darshan.patil@spit.ac.in"
-    password = ""
+    password = "BaScheD-bot"
     ctx_auth = AuthenticationContext(site_url)
     ctx_auth.acquire_token_for_user(username, password)   
     ctx = ClientContext(site_url, ctx_auth)
@@ -152,10 +153,10 @@ def saveFilesToElasticSearch(ctx, server_url):
                 print("File name: {0}".format(file.properties["Name"]))
                 print("Downloading file: {0} ...".format(file.properties["ServerRelativeUrl"]))
                 download_file_name = file.properties["Name"]
-                es.index(index=myfolder.properties["Name"].lower(), doc_type="test-type", id=index, body={"name": download_file_name, "location" : server_url+file.properties["ServerRelativeUrl"]})
+                es.index(index=myfolder.properties["Name"].lower(), doc_type="test-type", id=index, body={"name": download_file_name, "location" : server_url+file.properties["ServerRelativeUrl"], "content":file.read().decode("utf-8") })
                 index+= 1
 
-def getFilesFromElasticsearch(intent_predicted):
+def getFilesFromElasticsearch(intent_predicted, query):
     #es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     es = Elasticsearch(
     ["https://elastic:pVtn4OLSorIsWFjY79TIAVYp@6417f52e634543d5b0bef8fb023b0aeb.ap-south-1.aws.elastic-cloud.com:9243"])
@@ -163,7 +164,9 @@ def getFilesFromElasticsearch(intent_predicted):
     doc = {
         'size' : 20,
         'query': {
-            'match_all' : {}
+            'match' : {
+                "content": query
+            }
        }
     }
     res = es.search(index=intent_predicted, doc_type='test-type', body=doc)
