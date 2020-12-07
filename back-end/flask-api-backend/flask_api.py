@@ -118,7 +118,7 @@ def connectToSharepoint():
     server_url = "https://spitindia.sharepoint.com"
     site_url = server_url + "/sites/Darshan"
     username = "darshan.patil@spit.ac.in"
-    password = "BaScheD-bot"
+    password = ""
     ctx_auth = AuthenticationContext(site_url)
     ctx_auth.acquire_token_for_user(username, password)   
     ctx = ClientContext(site_url, ctx_auth)
