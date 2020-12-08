@@ -1,5 +1,5 @@
 
-## BaScheD-Bot
+## Intelli-intent
 
 An intelligent search engine for classifying the intent of the query. It uses LSTM model trained on the bbc news dataset http://mlg.ucd.ie/datasets/bbc.html. It fetches the data directory from Sharepoint. It is developed by using React, Flask, and ElasticSearch.
 
