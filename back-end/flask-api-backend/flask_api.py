@@ -137,7 +137,7 @@ def saveFilesToElasticSearch(ctx, server_url):
 
     # es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     es = Elasticsearch(
-    ["https://elastic:pVtn4OLSorIsWFjY79TIAVYp@6417f52e634543d5b0bef8fb023b0aeb.ap-south-1.aws.elastic-cloud.com:9243"])
+    ["https://elastic:RZpr3cb5xWqMKpnzEi2JL22R@884bbc0d58c74e63aae612cee67cf2e7.us-east-1.aws.found.io:9243"])
 
     # "https://elastic:RZpr3cb5xWqMKpnzEi2JL22R@884bbc0d58c74e63aae612cee67cf2e7.us-east-1.aws.found.io:9243"
 
@@ -161,7 +161,7 @@ def saveFilesToElasticSearch(ctx, server_url):
 def getFilesFromElasticsearch(intent_predicted, query):
     #es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     es = Elasticsearch(
-    ["https://elastic:pVtn4OLSorIsWFjY79TIAVYp@6417f52e634543d5b0bef8fb023b0aeb.ap-south-1.aws.elastic-cloud.com:9243"])
+    ["https://elastic:RZpr3cb5xWqMKpnzEi2JL22R@884bbc0d58c74e63aae612cee67cf2e7.us-east-1.aws.found.io:9243"])
 
     doc = {
         'size' : 20,
