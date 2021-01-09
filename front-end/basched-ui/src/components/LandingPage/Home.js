@@ -19,6 +19,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const eyTheme = createMuiTheme({
   palette: {
@@ -225,12 +226,97 @@ export default function Album() {
                 <br/>
               <b><i>*Category with Intent Score will be displayed post search query</i></b>
             </Typography>
-                </Grid>
-
-             
+          </Grid>   
 
         </Grid>
-        <Container className={classes.cardGrid} maxWidth="md">
+
+        <br/>
+        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+              <i>Advance Search</i>
+            </Typography>
+
+        <center>
+      <Grid container spacing={2}>
+        <Grid item xs={3} >
+          <Autocomplete
+              multiple
+              id="ORG"
+              options={ORG}
+              getOptionLabel={(option) => option.title}
+              style={{ width: "300px" }}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="ORG"
+                  placeholder="Favorites"
+                />
+              )}
+            />
+          </Grid>
+        <Grid item xs={3}>
+          <Autocomplete
+              multiple
+              id="GPE"
+              options={GPE}
+              getOptionLabel={(option) => option.title}
+              filterSelectedOptions
+              style={{ width: "300px" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="GPE"
+                  placeholder="Favorites"
+                />
+              )}
+            />
+        </Grid>
+
+        <Grid item xs={3}>
+          <Autocomplete
+              multiple
+              id="PERSON"
+              options={PERSON}
+              getOptionLabel={(option) => option.title}
+              filterSelectedOptions
+              style={{ width: "300px" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="PERSON"
+                  placeholder="Favorites"
+                />
+              )}
+            />
+        </Grid>
+
+        <Grid item xs={3}>
+          <Autocomplete
+            multiple
+            id="DEPARTMENT"
+            options={DEPARTMENT}
+            getOptionLabel={(option) => option.title}
+            filterSelectedOptions
+            style={{ width: "300px" }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="DEPARTMENT"
+                placeholder="Favorites"
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
+    </center>
+
+    
+      <Container className={classes.cardGrid} maxWidth="md">
+          
           {/* End hero unit */}
           <Grid container spacing={4}>
             {resEs.map((card) => (
@@ -285,3 +371,24 @@ export default function Album() {
     </React.Fragment>
   );
 }
+
+const PERSON = [
+  { title: 'The Shawshank Redemption'},
+  { title: 'The Godfather' },
+]
+
+const ORG = [
+  { title: 'The Shawshank Redemption' },
+  { title: 'The Godfather' },
+]
+
+const GPE = [
+  { title: 'The Shawshank Redemption' },
+  { title: 'The Godfather' },
+]
+
+const DEPARTMENT = [
+  { title: 'The Shawshank Redemption' },
+  { title: 'The Godfather' },
+]
+
