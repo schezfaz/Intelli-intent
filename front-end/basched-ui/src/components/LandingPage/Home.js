@@ -93,6 +93,17 @@ export default function Album() {
   const [politics, setPolitics] = useState();
 
 
+  const ColoredLine = ({ color }) => (
+    <hr
+        style={{
+            color: color,
+            backgroundColor: color,
+            height: 3
+        }}
+    />
+);
+
+
     function handleCategory (event){
       event.preventDefault();
       console.log("User Query submitted:" +pathValue); 
@@ -226,10 +237,20 @@ export default function Album() {
                 <br/>
               <b><i>*Category with Intent Score will be displayed post search query</i></b>
             </Typography>
-          </Grid>   
+          </Grid>
+
+        <br/>
+        <br/>
+        <br/> 
+        <br/>
+        <br/>
+        <br/>  
 
         </Grid>
 
+        
+
+        <ColoredLine color="black" />
         <br/>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
               <i>Advance Search</i>
@@ -250,7 +271,7 @@ export default function Album() {
                   {...params}
                   variant="outlined"
                   label="ORG"
-                  placeholder="Favorites"
+                  placeholder="Organisation"
                 />
               )}
             />
@@ -268,7 +289,7 @@ export default function Album() {
                   {...params}
                   variant="outlined"
                   label="GPE"
-                  placeholder="Favorites"
+                  placeholder="Conutries, States .."
                 />
               )}
             />
@@ -287,7 +308,7 @@ export default function Album() {
                   {...params}
                   variant="outlined"
                   label="PERSON"
-                  placeholder="Favorites"
+                  placeholder="Person"
                 />
               )}
             />
@@ -306,13 +327,15 @@ export default function Album() {
                 {...params}
                 variant="outlined"
                 label="DEPARTMENT"
-                placeholder="Favorites"
+                placeholder="Department"
               />
             )}
           />
         </Grid>
       </Grid>
     </center>
+    <br/><br/>
+    <ColoredLine color="black" />
 
     
       <Container className={classes.cardGrid} maxWidth="md">
@@ -324,7 +347,7 @@ export default function Album() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
+                    image="https://source.unsplash.com/720x600/?books"
                     title={card['_index']}
                   />
                   <CardContent className={classes.cardContent}>
@@ -373,22 +396,46 @@ export default function Album() {
 }
 
 const PERSON = [
-  { title: 'The Shawshank Redemption'},
-  { title: 'The Godfather' },
+  { title: 'chris paterson penalties'},
+  { title: 'russell' },
+  { title: 'james' },
+  { title: 'barack' },
+  { title: 'jacob' },
+  { title: 'philip' },
+  { title: 'adam' },
+  { title: 'shaw' },
+  { title: 'angel gambino' },
+  { title: 'michael' },
+  { title: 'gordon brown' },
+  { title: 'howard' },
+  { title: 'tony blair' },
 ]
 
 const ORG = [
-  { title: 'The Shawshank Redemption' },
-  { title: 'The Godfather' },
+  { title: 'fox'},
+  { title: 'tory' },
+  { title: 'bbc' },
+  { title: 'the european union' },
+  { title: 'bbc news' },
+  { title: 'the bobby charlton school' },
+  { title: 'deutsche securities' },
 ]
 
 const GPE = [
-  { title: 'The Shawshank Redemption' },
-  { title: 'The Godfather' },
+  { title: 'japan' },
+  { title: 'philippines' },
+  { title: 'new york' },
+  { title: 'australia' },
+  { title: 'us' },
+  { title: 'america' },
+  { title: 'india' },
+  { title: 'chicago' },
 ]
 
 const DEPARTMENT = [
-  { title: 'The Shawshank Redemption' },
-  { title: 'The Godfather' },
+  { title: 'Audit' },
+  { title: 'Taxation' },
+  { title: 'IT' },
+  { title: 'RISK' },
 ]
 
