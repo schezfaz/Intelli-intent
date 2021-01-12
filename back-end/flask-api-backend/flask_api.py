@@ -26,6 +26,8 @@ CORS(app, support_credentials=True)
 
 df=pd.read_csv("new-bbc-text.csv")
 
+global_intent = "business"
+
 
 space = re.compile('[/(){}\[\]\|@,;]')
 symbols= re.compile('[^0-9a-z #+_]')
@@ -55,6 +57,17 @@ def index():
 @app.route('/time')
 def get_current_time():
     return {'time': time.time()}
+
+
+# @app.route('/filterSearch', methods = ['GET','POST'])
+# def userQuery():
+#     dirPath = request.json
+#     es = es.search(index=global_intent, doc_type='test-type', body=)
+#     # for doc in res['hits']['hits']:
+#     #     print(doc['_id'], doc['_source'])
+    
+#     return res
+#     return "Done"
 
 @app.route('/userQuery', methods = ['GET','POST'])
 def userQuery():
@@ -91,6 +104,8 @@ def crawlDir():
     dirPath = request.json
     print(dirPath['val'])
     print(dirPath['query'])
+
+    global_intent = dirPath['val']
 
     res = getFilesFromElasticsearch(dirPath['val'], dirPath['query'])
     return jsonify(res['hits']['hits'])
@@ -164,7 +179,7 @@ def getFilesFromElasticsearch(intent_predicted, query):
     ["https://elastic:RZpr3cb5xWqMKpnzEi2JL22R@884bbc0d58c74e63aae612cee67cf2e7.us-east-1.aws.found.io:9243"])
 
     doc = {
-        'size' : 20,
+        'size' : 10,
         'query': {
             'match' : {
                 "content": query
@@ -176,6 +191,8 @@ def getFilesFromElasticsearch(intent_predicted, query):
     #     print(doc['_id'], doc['_source'])
     
     return res
+
+
 
 # if __name__ == '__main__':
 #     app.run()

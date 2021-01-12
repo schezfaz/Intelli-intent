@@ -93,6 +93,38 @@ export default function Album() {
   const [politics, setPolitics] = useState();
 
 
+  const [org, setOrg] = useState();
+
+  function handleOrg(event, value){
+    console.log(value)
+    setOrg(value);
+  }
+
+  function handleFilter(){
+    var obj = {};
+    // obj.val = val;
+    obj.query = org;
+        fetch("/filterSearch", {
+            method:"POST",
+            cache: "no-cache",
+            headers:{
+                "Content-type":"application/json",
+                'Accept': 'application/json',
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+                'Access-Control-Allow-Origin': "['*']"
+            },
+            body:JSON.stringify(obj)
+            }
+        ).then(response => response.json())
+        .then(data => {
+          setResEs(data)
+          console.log(data)
+        }) 
+
+  }
+
+
   const ColoredLine = ({ color }) => (
     <hr
         style={{
@@ -261,6 +293,7 @@ export default function Album() {
         <Grid item xs={3} >
           <Autocomplete
               multiple
+              onChange={(event, value) => handleOrg(event, value)}
               id="ORG"
               options={ORG}
               getOptionLabel={(option) => option.title}
@@ -334,7 +367,14 @@ export default function Album() {
         </Grid>
       </Grid>
     </center>
-    <br/><br/>
+    <br/>
+    <br/>
+
+    <Button variant="contained" style={{backgroundColor:"#ffe600"}} onClick={()=> handleFilter()}>
+      Filter now
+    </Button>
+    
+    <br/>
     <ColoredLine color="black" />
 
     
