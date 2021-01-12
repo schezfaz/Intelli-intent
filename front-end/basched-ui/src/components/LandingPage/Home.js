@@ -267,7 +267,7 @@ export default function Album() {
 
                 <Typography variant="h7" align="center" color="textSecondary" paragraph>
                 <br/>
-              <b><i>*Category with Intent Score will be displayed post search query</i></b>
+              <b><i>*Intent scores for categories will be displayed post search query.</i></b>
             </Typography>
           </Grid>
 
@@ -275,8 +275,7 @@ export default function Album() {
         <br/>
         <br/> 
         <br/>
-        <br/>
-        <br/>  
+        
 
         </Grid>
 
@@ -285,7 +284,7 @@ export default function Album() {
         <ColoredLine color="black" />
         <br/>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              <i>Advance Search</i>
+              <i>Advanced Search</i>
             </Typography>
 
         <center>
